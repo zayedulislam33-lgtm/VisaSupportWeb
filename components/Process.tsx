@@ -27,10 +27,11 @@ const steps: ProcessStep[] = [
 const Process: React.FC = () => {
   return (
     <section id="process" className="py-24 bg-white relative overflow-hidden">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-24">
-          <h2 className="text-4xl md:text-5xl font-extrabold text-gray-900">How We Work</h2>
-          <p className="mt-4 text-xl text-gray-500">A transparent, step-by-step approach to your visa success.</p>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <div className="text-center mb-24 relative">
+          <span className="watermark-text">PROCESS</span>
+          <h2 className="relative z-10 text-4xl md:text-5xl font-extrabold text-gray-900">How We Work</h2>
+          <p className="relative z-10 mt-4 text-xl text-gray-500">A transparent, step-by-step approach to your visa success.</p>
         </div>
 
         <div className="relative">

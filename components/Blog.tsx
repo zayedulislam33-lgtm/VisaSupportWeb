@@ -31,19 +31,20 @@ const posts: BlogPost[] = [
 
 const Blog: React.FC = () => {
   return (
-    <section id="blog" className="py-20 bg-gray-50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-end mb-12">
-            <div>
-                <h2 className="text-accent-600 font-bold uppercase tracking-widest text-sm mb-2">Latest Updates</h2>
-                <h3 className="text-3xl font-bold text-gray-900">Immigration News & Insights</h3>
+    <section id="blog" className="py-20 bg-gray-50 relative overflow-hidden">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <div className="flex justify-between items-end mb-12 relative">
+            <div className="relative z-10">
+                <span className="watermark-text left-0 translate-x-0 text-left origin-left scale-75 md:scale-100">LATEST NEWS</span>
+                <h2 className="relative z-10 text-accent-600 font-bold uppercase tracking-widest text-sm mb-2">Latest Updates</h2>
+                <h3 className="relative z-10 text-3xl font-bold text-gray-900">Immigration News & Insights</h3>
             </div>
-            <a href="#" className="hidden md:flex items-center text-brand-600 font-bold hover:text-brand-800">
+            <a href="#" className="hidden md:flex items-center text-brand-600 font-bold hover:text-brand-800 relative z-10">
                 View All Articles <ArrowRight className="ml-2 w-4 h-4" />
             </a>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 relative z-10">
             {posts.map((post) => (
                 <article key={post.id} className="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-shadow duration-300 flex flex-col h-full border border-gray-100">
                     <div className="h-48 overflow-hidden relative">

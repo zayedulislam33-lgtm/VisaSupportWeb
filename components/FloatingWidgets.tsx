@@ -3,9 +3,10 @@ import { MessageCircle, MessageSquare } from 'lucide-react';
 
 const FloatingWidgets: React.FC = () => {
   return (
-    <div className="fixed bottom-6 right-6 z-50 flex flex-col gap-4">
+    // Adjusted bottom position: bottom-20 on mobile (to clear sticky footer), bottom-6 on desktop
+    <div className="fixed bottom-20 lg:bottom-6 right-6 z-40 flex flex-col gap-4">
       {/* Track App Button - Mini */}
-      <a href="#track" className="bg-white text-brand-600 p-3 rounded-full shadow-lg hover:shadow-xl transition-transform hover:scale-110 border border-gray-100 group relative">
+      <a href="#track" className="bg-white text-brand-600 p-3 rounded-full shadow-lg hover:shadow-xl transition-transform hover:scale-110 border border-gray-100 group relative hidden lg:flex">
         <div className="absolute right-12 top-1 bg-gray-800 text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">Track Status</div>
          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
       </a>

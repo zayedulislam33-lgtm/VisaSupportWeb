@@ -1,126 +1,116 @@
-import React from 'react';
-import { CheckCircle, Users, Star, ArrowRight, Plane } from 'lucide-react';
+
+import React, { useEffect, useState } from 'react';
+import { CheckCircle, Users, Star, ArrowRight, Plane, Loader2 } from 'lucide-react';
+import { addLead } from '../services/dataService';
 
 const Hero: React.FC = () => {
+  const [scrollY, setScrollY] = useState(0);
+  const [formData, setFormData] = useState({ name: '', email: '', destination: 'Destination', visaType: 'Visa Type' });
+  const [loading, setLoading] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => setScrollY(window.scrollY);
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!formData.name || !formData.email) return;
+    setLoading(true);
+    try {
+      await addLead(formData);
+      setSubmitted(true);
+      setFormData({ name: '', email: '', destination: 'Destination', visaType: 'Visa Type' });
+    } catch (error) {
+      alert("Something went wrong. Please try again.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
-    <div id="home" className="relative min-h-screen flex items-center justify-center overflow-hidden pt-20 lg:pt-0">
-      {/* Dynamic Background with Overlay */}
-      <div className="absolute inset-0 z-0">
-        <img 
-          src="https://images.unsplash.com/photo-1436491865332-7a61a109cc05?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80" 
-          alt="Airport Travel" 
-          className="w-full h-full object-cover scale-105"
-        />
-        <div className="absolute inset-0 bg-gradient-to-r from-brand-900 via-brand-900/90 to-brand-800/60 mix-blend-multiply"></div>
-        <div className="absolute inset-0 bg-gradient-to-t from-brand-900 to-transparent opacity-90"></div>
-        
-        {/* Animated Background Blobs */}
-        <div className="absolute top-20 left-20 w-72 h-72 bg-accent-500/20 rounded-full blur-3xl animate-pulse"></div>
-        <div className="absolute bottom-20 right-20 w-96 h-96 bg-brand-500/20 rounded-full blur-3xl animate-pulse delay-1000"></div>
+    <div id="home" className="relative mt-24 min-h-[calc(100vh-6rem)] flex items-center justify-center overflow-hidden py-10 lg:py-0">
+      <div className="absolute inset-0 z-0 will-change-transform" style={{ transform: `translateY(${scrollY * 0.4}px)` }}>
+        <img src="https://images.unsplash.com/photo-1436491865332-7a61a109cc05?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80" alt="Airport Travel" className="w-full h-full object-cover object-center" />
+        <div className="absolute inset-0 bg-brand-900/90 mix-blend-multiply"></div>
+        <div className="absolute inset-0 bg-gradient-to-t from-brand-900 via-brand-900/50 to-transparent"></div>
+        <div className="absolute inset-0 bg-gradient-to-r from-brand-900/80 to-transparent"></div>
       </div>
 
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-          
-          {/* Left Content */}
-          <div className="text-white space-y-8 animate-fade-in-up">
-            <div className="inline-flex items-center space-x-2 px-4 py-2 rounded-full bg-white/10 backdrop-blur-md border border-white/20 shadow-glow">
+      <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
+        <div className="absolute top-20 left-10 w-64 h-64 bg-accent-500/20 rounded-full blur-3xl animate-blob"></div>
+        <div className="absolute bottom-20 right-10 w-96 h-96 bg-brand-500/20 rounded-full blur-3xl animate-blob animation-delay-2000"></div>
+      </div>
+
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full h-full">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-20 items-center h-full">
+          <div className="text-white space-y-6 lg:space-y-8 animate-fade-in-up order-2 lg:order-1 pt-6 lg:pt-0">
+            <div className="hidden lg:inline-flex items-center space-x-2 px-4 py-2 rounded-full bg-white/10 backdrop-blur-md border border-white/20 shadow-glow animate-float">
               <Star className="w-4 h-4 text-accent-500 fill-accent-500" />
               <span className="text-sm font-semibold text-brand-50">#1 Visa Consultancy Firm</span>
             </div>
-
-            <h1 className="text-5xl lg:text-7xl font-extrabold leading-tight tracking-tight drop-shadow-2xl">
-              Move to <br/>
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-accent-400 to-white filter drop-shadow-lg">
-                Your Dream Country
-              </span>
+            <h1 className="text-4xl md:text-5xl lg:text-7xl font-extrabold leading-tight tracking-tight drop-shadow-2xl">
+              Move to <br/><span className="text-transparent bg-clip-text bg-gradient-to-r from-accent-400 to-white filter drop-shadow-lg">Your Dream Country</span>
             </h1>
-            
-            <p className="text-lg text-gray-200 max-w-xl leading-relaxed font-light">
-              We make immigration simple. Join 10,000+ happy clients who started their new lives in Canada, UK, USA, and Australia with GlobalPath.
+            <p className="text-base lg:text-lg text-gray-200 max-w-xl leading-relaxed font-light">
+              We make immigration simple. Join 10,000+ happy clients who started their new lives in Canada, UK, USA, and Australia.
             </p>
-
-            <div className="flex flex-wrap gap-4">
-              <button className="px-8 py-4 bg-gradient-to-r from-accent-500 to-accent-600 hover:from-accent-400 hover:to-accent-500 text-white rounded-2xl font-bold shadow-neon transition-all transform hover:-translate-y-1 hover:scale-105 flex items-center border border-white/10">
-                Start Free Assessment <ArrowRight className="ml-2 w-5 h-5" />
+            <div className="flex flex-wrap gap-4 pt-2">
+              <button className="px-8 py-4 bg-accent-500 hover:bg-accent-600 text-white rounded-2xl font-bold shadow-lg transition-all transform hover:-translate-y-1 flex items-center group">
+                 Start Free Assessment <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
               </button>
-              <button className="px-8 py-4 bg-white/5 hover:bg-white/10 backdrop-blur-md border border-white/30 text-white rounded-2xl font-bold transition-all hover:shadow-lg">
-                Explore Services
-              </button>
-            </div>
-
-            {/* Trust Badges 3D */}
-            <div className="pt-8 border-t border-white/10 flex gap-8">
-              <div className="flex items-center gap-4 group">
-                <div className="p-3 bg-gradient-to-br from-white/10 to-white/5 rounded-xl border border-white/10 shadow-lg group-hover:scale-110 transition-transform">
-                  <CheckCircle className="w-8 h-8 text-green-400" />
-                </div>
-                <div>
-                  <p className="font-bold text-2xl">98%</p>
-                  <p className="text-xs text-gray-300 uppercase tracking-wide">Success Rate</p>
-                </div>
-              </div>
-              <div className="flex items-center gap-4 group">
-                <div className="p-3 bg-gradient-to-br from-white/10 to-white/5 rounded-xl border border-white/10 shadow-lg group-hover:scale-110 transition-transform">
-                  <Users className="w-8 h-8 text-blue-300" />
-                </div>
-                <div>
-                  <p className="font-bold text-2xl">10k+</p>
-                  <p className="text-xs text-gray-300 uppercase tracking-wide">Happy Clients</p>
-                </div>
-              </div>
             </div>
           </div>
 
-          {/* Right Content: 3D Glass Form */}
-          <div className="lg:ml-auto w-full max-w-md perspective-1000">
-            <div className="bg-white/10 backdrop-blur-2xl border border-white/20 p-8 rounded-[2rem] shadow-[0_20px_50px_rgba(0,0,0,0.5)] relative overflow-hidden group transform transition-transform hover:rotate-1 duration-500">
-              {/* Shine Effect */}
-              <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-white/20 to-transparent pointer-events-none"></div>
-              
-              <div className="absolute -top-10 -right-10 w-32 h-32 bg-brand-500 rounded-full blur-3xl opacity-50"></div>
-              <div className="absolute -bottom-10 -left-10 w-32 h-32 bg-accent-500 rounded-full blur-3xl opacity-50"></div>
-
+          <div className="lg:ml-auto w-full max-w-md perspective-1000 order-1 lg:order-2 mb-10 lg:mb-0" style={{ transform: `translateY(${scrollY * -0.05}px)` }}>
+            <div className="bg-white/10 backdrop-blur-xl border border-white/20 p-6 lg:p-8 rounded-[2.5rem] shadow-2xl relative overflow-hidden group">
               <div className="relative z-10">
                 <div className="flex items-center justify-between mb-6">
                   <div>
                     <h3 className="text-2xl font-bold text-white">Quick Eligibility</h3>
                     <p className="text-brand-100 text-sm">Instant Expert Callback</p>
                   </div>
-                  <div className="w-12 h-12 bg-gradient-to-br from-accent-500 to-orange-600 rounded-2xl flex items-center justify-center shadow-lg transform rotate-12">
+                  <div className="w-12 h-12 bg-gradient-to-br from-accent-500 to-accent-600 rounded-2xl flex items-center justify-center shadow-lg transform rotate-6">
                      <Plane className="text-white w-6 h-6" />
                   </div>
                 </div>
                 
-                <form className="space-y-4">
-                  <div>
-                    <input type="text" placeholder="Full Name" className="w-full bg-black/20 border border-white/10 rounded-xl px-4 py-3 focus:ring-2 focus:ring-accent-500 outline-none text-white placeholder-gray-300 backdrop-blur-sm transition-all focus:bg-black/30" />
+                {submitted ? (
+                  <div className="text-center py-10 bg-white/5 rounded-2xl border border-white/10 animate-fade-in">
+                    <CheckCircle className="w-16 h-16 text-accent-400 mx-auto mb-4" />
+                    <h4 className="text-xl font-bold text-white">Thank You!</h4>
+                    <p className="text-brand-100 text-sm mt-2 px-4">Our expert will contact you within 24 hours.</p>
+                    <button onClick={() => setSubmitted(false)} className="mt-6 text-accent-400 text-xs font-bold underline">Submit Another Inquiry</button>
                   </div>
-                  <div>
-                    <input type="email" placeholder="Email Address" className="w-full bg-black/20 border border-white/10 rounded-xl px-4 py-3 focus:ring-2 focus:ring-accent-500 outline-none text-white placeholder-gray-300 backdrop-blur-sm transition-all focus:bg-black/30" />
-                  </div>
-                  <div className="grid grid-cols-2 gap-4">
-                    <select className="w-full bg-black/20 border border-white/10 rounded-xl px-4 py-3 focus:ring-2 focus:ring-accent-500 outline-none text-white/90 backdrop-blur-sm appearance-none">
-                      <option className="text-gray-900">Destination</option>
-                      <option className="text-gray-900">Canada</option>
-                      <option className="text-gray-900">Australia</option>
-                      <option className="text-gray-900">UK</option>
-                    </select>
-                    <select className="w-full bg-black/20 border border-white/10 rounded-xl px-4 py-3 focus:ring-2 focus:ring-accent-500 outline-none text-white/90 backdrop-blur-sm appearance-none">
-                      <option className="text-gray-900">Visa Type</option>
-                      <option className="text-gray-900">Student</option>
-                      <option className="text-gray-900">Work</option>
-                      <option className="text-gray-900">Tourist</option>
-                    </select>
-                  </div>
-                  <button type="submit" className="w-full bg-gradient-to-r from-brand-600 to-brand-500 hover:from-brand-500 hover:to-brand-400 text-white font-bold py-4 rounded-xl shadow-lg transition-all mt-4 transform hover:-translate-y-1 hover:shadow-brand-500/50">
-                    Check My Eligibility Now
-                  </button>
-                </form>
+                ) : (
+                  <form className="space-y-4" onSubmit={handleSubmit}>
+                    <input type="text" placeholder="Full Name" required value={formData.name} onChange={(e) => setFormData({...formData, name: e.target.value})} className="w-full bg-black/20 border border-white/10 rounded-xl px-4 py-3.5 outline-none text-white transition-all focus:bg-black/30" />
+                    <input type="email" placeholder="Email Address" required value={formData.email} onChange={(e) => setFormData({...formData, email: e.target.value})} className="w-full bg-black/20 border border-white/10 rounded-xl px-4 py-3.5 outline-none text-white transition-all focus:bg-black/30" />
+                    <div className="grid grid-cols-2 gap-3">
+                      <select value={formData.destination} onChange={(e) => setFormData({...formData, destination: e.target.value})} className="w-full bg-black/20 border border-white/10 rounded-xl px-4 py-3.5 text-white outline-none cursor-pointer">
+                        <option className="text-gray-900">Destination</option>
+                        <option className="text-gray-900">Canada</option>
+                        <option className="text-gray-900">Australia</option>
+                        <option className="text-gray-900">UK</option>
+                        <option className="text-gray-900">USA</option>
+                      </select>
+                      <select value={formData.visaType} onChange={(e) => setFormData({...formData, visaType: e.target.value})} className="w-full bg-black/20 border border-white/10 rounded-xl px-4 py-3.5 text-white outline-none cursor-pointer">
+                        <option className="text-gray-900">Visa Type</option>
+                        <option className="text-gray-900">Student</option>
+                        <option className="text-gray-900">Work</option>
+                        <option className="text-gray-900">Tourist</option>
+                      </select>
+                    </div>
+                    <button type="submit" disabled={loading} className="w-full bg-gradient-to-r from-brand-600 to-brand-500 text-white font-bold py-4 rounded-xl shadow-lg transition-all flex items-center justify-center">
+                      {loading ? <Loader2 className="w-6 h-6 animate-spin" /> : "Check My Eligibility Now"}
+                    </button>
+                  </form>
+                )}
               </div>
             </div>
           </div>
-
         </div>
       </div>
     </div>

@@ -13,13 +13,16 @@ const FAQ: React.FC = () => {
   const [openIndex, setOpenIndex] = useState<number | null>(0);
 
   return (
-    <section className="py-20 bg-white">
-      <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-        <h2 className="text-3xl font-bold text-center text-gray-900 mb-12">Frequently Asked Questions</h2>
+    <section className="py-20 bg-white relative overflow-hidden">
+      <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <div className="text-center mb-12 relative">
+             <span className="watermark-text">FAQ</span>
+             <h2 className="relative z-10 text-3xl font-bold text-gray-900">Frequently Asked Questions</h2>
+        </div>
         
         <div className="space-y-4">
             {faqs.map((faq, index) => (
-                <div key={index} className="border border-gray-200 rounded-xl overflow-hidden transition-all duration-300 hover:border-brand-200">
+                <div key={index} className="border border-gray-200 rounded-xl overflow-hidden transition-all duration-300 hover:border-brand-200 bg-white relative z-10">
                     <button 
                         className={`w-full flex justify-between items-center p-6 text-left focus:outline-none ${openIndex === index ? 'bg-gray-50' : 'bg-white'}`}
                         onClick={() => setOpenIndex(openIndex === index ? null : index)}
